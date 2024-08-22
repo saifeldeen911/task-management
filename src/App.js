@@ -1,23 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import TaskInputForm from "./component/TaskInputForm";
+import TaskItem from "./component/TaskItem";
+import "./App.css";
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (description) => {
+    setTasks([...tasks, { id: Date.now(), description, completed: false }]);
+  };
+
+  const completeTask = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md mx-auto space-y-6">
+        <TaskInputForm addTask={addTask} />
+        <div className="space-y-2">
+          <h3 className="text-lg font-medium">Tasks</h3>
+          <div
+            className={`max-h-80 overflow-y-auto custom-scrollbar rounded-lg space-y-2 ${
+              tasks.length > 0 ? "border border-gray-300" : ""
+            }`}
+          >
+            {tasks.length === 0 ? (
+              <p className="text-muted-foreground p-4">No tasks yet.</p>
+            ) : (
+              tasks.map((task) => (
+                <TaskItem
+                  key={task.id}
+                  task={task}
+                  onComplete={completeTask}
+                  onDelete={deleteTask}
+                />
+              ))
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
