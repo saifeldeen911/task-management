@@ -23,8 +23,8 @@ function App() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md mx-auto space-y-6">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-gray-100">
+      <div className="w-full max-w-md mx-auto space-y-6 sm:p-4 md:p-6 lg:p-8">
         <TaskInputForm addTask={addTask} />
         <div className="space-y-2">
           <h3 className="text-lg font-medium">Tasks</h3>
